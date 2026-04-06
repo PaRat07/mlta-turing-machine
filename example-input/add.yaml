@@ -1,0 +1,82 @@
+alphabet:
+    terms: [1, 0, "#", "~"]
+    non-terms: [l0, l1, r0, r1]
+    blank: "#"
+
+states: [S, FindEnd, RhsLastBit, GoAndAdd1, GoAndAdd0, Add1, Add1Unmarked, Add0, GotoRhsAndContinue, Clean, DoCleanAndHalt, F]
+initial-state: S
+halt-state: F
+
+tape-init: tape.txt
+
+
+# Task: there is two binary numbers with equal length on tape separated by ~, program finds sum of them
+transitions:
+  S:
+    "*": [_, FindEnd, r]
+
+  # find tape end
+  FindEnd:
+    "#": [_, RhsLastBit, l]
+    "*": [_, _, r]
+
+  # Find the last unprocessed bit of rhs (right-hand-side operand)
+  RhsLastBit:
+    1: [r1, GoAndAdd1, l]
+    0: [r0, GoAndAdd0, l]
+    r1: [_, _, l]
+    r0: [_, _, l]
+    "~": [_, Clean, r] # Rhs is fully processed
+
+
+  # Add the digit to lhs
+  GoAndAdd1:
+    "~": [_, Add1, l]
+    1: [_, _, l]
+    0: [_, _, l]
+    
+  GoAndAdd0:
+    "~": [_, Add0, l]
+    1: [_, _, l]
+    0: [_, _, l]
+
+  Add1:
+    0: [l1, GotoRhsAndContinue, r]
+    1: [l0, Add1Unmarked, l]
+    "#": [l1, GotoRhsAndContinue, r]
+    l0: [_, _, l]
+    l1: [_, _, l]
+
+  Add1Unmarked:
+    0: [1, GotoRhsAndContinue, r]
+    1: [0, _, l]
+    "#": [1, GotoRhsAndContinue, r]
+
+
+  # Mark a bit as processed in lhs
+  Add0:
+    0: [l0, GotoRhsAndContinue, r]
+    1: [l1, GotoRhsAndContinue, r]
+    "#": [l0, GotoRhsAndContinue, r]
+    l0: [_, _, l]
+    l1: [_, _, l]
+
+  # go all the way to the end and set RhsLastBit state
+  GotoRhsAndContinue:
+    "#": [_, RhsLastBit, l]
+    "*": [_, _, r]
+
+
+  Clean:
+    "#": [_, DoCleanAndHalt, l]
+    "*": [_, _, r]
+
+  DoCleanAndHalt:
+    r0: ["#", _, l]
+    r1: ["#", _, l]
+    1: [_, _, l]
+    0: [_, _, l]
+    l0: [0, _, l]
+    l1: [1, _, l]
+    "#": [_, F, l]
+    "~": ["#", _, l]
