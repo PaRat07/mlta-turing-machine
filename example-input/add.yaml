@@ -1,13 +1,13 @@
 alphabet:
     terms: [1, 0, "#", "~"]
-    non-terms: [l0, l1, r0, r1]
+    non_terms: [l0, l1, r0, r1]
     blank: "#"
 
 states: [S, FindEnd, RhsLastBit, GoAndAdd1, GoAndAdd0, Add1, Add1Unmarked, Add0, GotoRhsAndContinue, Clean, DoCleanAndHalt, F]
-initial-state: S
-halt-state: F
+initial_state: S
+halt_state: F
 
-tape-init: tape.txt
+tape_init: tape.txt
 
 
 # Task: there is two binary numbers with equal length on tape separated by ~, program finds sum of them
@@ -20,7 +20,7 @@ transitions:
     "#": [_, RhsLastBit, l]
     "*": [_, _, r]
 
-  # Find the last unprocessed bit of rhs (right-hand-side operand)
+  # Find the last unprocessed bit of rhs (right_hand_side operand)
   RhsLastBit:
     1: [r1, GoAndAdd1, l]
     0: [r0, GoAndAdd0, l]

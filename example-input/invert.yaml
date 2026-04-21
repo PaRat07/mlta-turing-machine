@@ -1,22 +1,22 @@
 alphabet:
     terms: [1, 0, "#"]
-    non-terms: []
+    non_terms: []
     blank: "#"
 
 states: [S, F, Fwd, Ret]
-initial-state: S
-halt-state: F
+initial_state: S
+halt_state: F
 
-tape-init: tape.txt
+tape_init: tape.txt
 
 transitions:
-	S:
-		"%": [_, Fwd, _]
-	Fwd:
-		1: [0, _, r]
-		0: [1, _, r]
-		"#": [_, Ret, l]
-	Ret:
-		"#": [_, F, r]
-		1: [_, _, l]
-		0: [_, _, l]
+    S:
+        "*": [_, Fwd, _]
+    Fwd:
+        1: [0, _, r]
+        0: [1, _, r]
+        "#": [_, Ret, l]
+    Ret:
+        "#": [_, F, r]
+        1: [_, _, l]
+        0: [_, _, l]
