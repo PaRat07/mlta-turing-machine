@@ -1,11 +1,17 @@
 #pragma once
 
+#include <filesystem>
 #include <map>
 #include <optional>
 #include <string>
 #include <vector>
 
 struct Config {
+  template<typename T>
+  struct NoopOr : std::optional<T> {
+    using std::optional<T>::operator=;
+  };
+
   using State = std::string;
   using TapeSymbol = std::string;
 
@@ -19,19 +25,24 @@ struct Config {
   State initial_state;
   State halt_state;
 
-  struct TapeState : std::vector<TapeSymbol> {} tape_init;
-
+  std::filesystem::path tape_init;
 
   struct TransitionTarget {
-    std::optional<TapeSymbol> content;
-    std::optional<State> state;
+    NoopOr<TapeSymbol> content;
+    NoopOr<State> state;
 
     enum class Move : bool {
       kL, kR
     };
 
-    std::optional<Move> move;
+    NoopOr<Move> move;
   };
 
   std::map<State, std::map<TapeSymbol, TransitionTarget>> transitions;
+
+
+  std::vector<TapeSymbol> ParseTape() const;
 };
+
+
+
