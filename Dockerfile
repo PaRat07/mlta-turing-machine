@@ -30,7 +30,7 @@ RUN cmake -B build -G Ninja \
 RUN cmake --build build
 
 
-FROM alpine:3.20 AS export
+FROM scratch AS export
 
 COPY --from=builder /app/build/turing-machine /
 
