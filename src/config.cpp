@@ -8,6 +8,9 @@
 std::vector<Config::TapeSymbol> Config::ParseTape() const {
   std::vector<TapeSymbol> res;
   std::ifstream fin(tape_init);
+  if (!fin) {
+    throw std::invalid_argument(std::format("failed to open tape file {}", tape_init.string()));
+  }
 
   res.emplace_back();
   for (char c : std::views::istream<char>(fin)) {

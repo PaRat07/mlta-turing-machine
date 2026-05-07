@@ -80,6 +80,9 @@ T Unwrap(rfl::Result<T> res) {
 
 Config ParseConfig(std::filesystem::path config_path) {
   std::ifstream fin(config_path);
+  if (!fin) {
+    throw std::runtime_error("failed to open config file");
+  }
   auto config = Unwrap(rfl::yaml::read<Config>(fin));
   std::vector<Config::TapeSymbol> symbols;
   std::ranges::copy(config.alphabet.terms, std::back_inserter(symbols));
