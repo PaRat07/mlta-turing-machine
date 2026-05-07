@@ -7,7 +7,7 @@ states: [S, FindEnd, RhsLastBit, GoAndAdd1, GoAndAdd0, Add1, Add1Unmarked, Add0,
 initial_state: S
 halt_state: F
 
-tape_init: example-input/tape.txt
+tape_init: example-input/tape_two_nums.txt
 
 
 # Task: there is two binary numbers with equal length on tape separated by ~, program finds sum of them
