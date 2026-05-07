@@ -32,13 +32,11 @@ transitions:
 
 Выбор перехода происходит сверху вниз по "первый подходящий". Вместо символа в качестве условия может стоять "*", что значит "любой символ".
 
-### Установка и запуск:
+### Сборка и запуск:
 ```shell
-bash ./install.sh [<install-path>]
+docker build . -t turing-machine
 ```
-Путь установки по умолчанию - ./install\
-Теперь по пути установки есть исполняемый файл turing-machine, который можно запустить:
+
 ```shell
-turing-machine <config-path>
+docker run -v "$(pwd)/example-input:/example-input" --rm turing-machine:latest /example-input/<ИМЯ ВХОДНЫХ ДАННЫХ>.yaml
 ```
-Где config-path - путь к конфигу
