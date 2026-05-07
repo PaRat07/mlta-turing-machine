@@ -7,7 +7,7 @@ states: [S, F, Fwd, Ret]
 initial_state: S
 halt_state: F
 
-tape_init: tape.txt
+tape_init: example-input/tape.txt
 
 transitions:
     S:
